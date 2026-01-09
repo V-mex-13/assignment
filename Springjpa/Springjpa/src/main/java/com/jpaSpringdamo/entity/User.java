@@ -12,8 +12,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userid;
-
-
+@OneToOne(cascade = CascadeType.ALL)
+private Laptop laptop;
 
     public int getUserid() {
         return userid;
@@ -46,5 +46,13 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Laptop getLaptop() {
+        return laptop;
+    }
+
+    public void setLaptop(Laptop laptop) {
+        this.laptop = laptop;
     }
 }

@@ -1,0 +1,13 @@
+package com.artisthub.repository;
+
+import com.artisthub.entity.Booking;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface BookingRepository extends JpaRepository<Booking, Long> {
+    List<Booking> findByArtistId(Long artistId);
+    List<Booking> findByCustomerId(Long customerId);
+}

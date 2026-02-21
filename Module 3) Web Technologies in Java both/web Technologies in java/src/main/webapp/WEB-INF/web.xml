@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <!-- Global Context Parameter -->
+    <context-param>
+        <param-name>dbUrl</param-name>
+        <param-value>jdbc:mysql://localhost:3306/labdb</param-value>
+    </context-param>
+
+    <!-- Filters -->
+    <filter>
+        <filter-name>ValFilter</filter-name>
+        <filter-class>com.lab.filters.ValidationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ValFilter</filter-name>
+        <url-pattern>/LoginDispatcherServlet</url-pattern>
+    </filter-mapping>
+
+    <!-- Servlets -->
+    <servlet>
+        <servlet-name>HeaderServlet</servlet-name>
+        <servlet-class>com.lab.servlets.RequestHeaderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HeaderServlet</servlet-name>
+        <url-pattern>/headers</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LifecycleServlet</servlet-name>
+        <servlet-class>com.lab.servlets.LifecycleServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LifecycleServlet</servlet-name>
+        <url-pattern>/lifecycle</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ConfigContextServlet</servlet-name>
+        <servlet-class>com.lab.servlets.ConfigContextServlet</servlet-class>
+        <init-param>
+            <param-name>adminEmail</param-name>
+            <param-value>admin@javalab.com</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ConfigContextServlet</servlet-name>
+        <url-pattern>/config</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CgiServlet</servlet-name>
+        <servlet-class>com.lab.servlets.CgiStyleServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CgiServlet</servlet-name>
+        <url-pattern>/cgi</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoginDispatcherServlet</servlet-name>
+        <servlet-class>com.lab.servlets.LoginDispatcherServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginDispatcherServlet</servlet-name>
+        <url-pattern>/loginDispatcher</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ContextSetterServlet</servlet-name>
+        <servlet-class>com.lab.servlets.ContextSetterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ContextSetterServlet</servlet-name>
+        <url-pattern>/setContext</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SessionLoginServlet</servlet-name>
+        <servlet-class>com.lab.servlets.SessionLoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SessionLoginServlet</servlet-name>
+        <url-pattern>/sessionLogin</url-pattern>
+    </servlet-mapping>
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+</web-app>

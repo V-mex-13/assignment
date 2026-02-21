@@ -1,0 +1,14 @@
+/* External CSS: Styles defined in a separate file */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 20px;
+}
+
+.external-box {
+    color: #084298;
+    background-color: #cfe2ff;
+    border: 1px solid #b6d4fe;
+    padding: 15px;
+    border-radius: 5px;
+}

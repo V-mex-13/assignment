@@ -18,6 +18,7 @@
                                     <th>Artist</th>
                                     <th>Event Date</th>
                                     <th>Status</th>
+                                    <th>Action (Review)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -27,6 +28,25 @@
                                         <td>${booking.artist.name}</td>
                                         <td>${booking.eventDate}</td>
                                         <td>${booking.status}</td>
+                                        <td>
+                                            <form action="/review/submit" method="post"
+                                                class="d-flex align-items-center gap-2">
+                                                <input type="hidden" name="${_csrf.parameterName}"
+                                                    value="${_csrf.token}" />
+                                                <input type="hidden" name="artistId" value="${booking.artist.id}">
+                                                <select name="rating" class="form-select form-select-sm"
+                                                    style="width: 70px;">
+                                                    <option value="5">5 ⭐</option>
+                                                    <option value="4">4 ⭐</option>
+                                                    <option value="3">3 ⭐</option>
+                                                    <option value="2">2 ⭐</option>
+                                                    <option value="1">1 ⭐</option>
+                                                </select>
+                                                <input type="text" name="comment" class="form-control form-control-sm"
+                                                    placeholder="Short review..." required>
+                                                <button type="submit" class="btn btn-sm btn-primary">Send</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </tbody>

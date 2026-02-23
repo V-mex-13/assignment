@@ -20,6 +20,9 @@ public class Artist extends User {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(columnDefinition = "TEXT")
+    private String profilePicUrl;
+
     @Enumerated(EnumType.STRING)
     private ApprovalStatus approvalStatus = ApprovalStatus.PENDING;
 

@@ -16,7 +16,7 @@
                     <form id="registerForm" action="/register-action" method="post">
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                         <div class="mb-3">
-                            <label class="form-label">I am a:</label>
+                            <label class="form-label">I am a: (Select Artist to see more options)</label>
                             <select class="form-select" id="role" name="role" onchange="toggleFields()">
                                 <option value="customer">Customer</option>
                                 <option value="artist">Artist</option>
@@ -57,6 +57,11 @@
                             <div class="mb-3">
                                 <label class="form-label">Description</label>
                                 <textarea class="form-control" name="description" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Profile Picture URL</label>
+                                <input type="text" class="form-control" name="profilePicUrl"
+                                    placeholder="https://example.com/image.jpg">
                             </div>
                         </div>
 

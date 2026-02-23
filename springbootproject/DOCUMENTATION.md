@@ -1,7 +1,7 @@
 # ArtistHub - Artist Booking Application
 
 ## Project Overview
-ArtistHub is a comprehensive web application built with Spring Boot for connecting artists with customers. It provides a platform where artists can showcase their profiles, receive bookings, and manage their schedules, while customers can search for artists, make bookings, and leave reviews. The application also includes an administrative dashboard for managing users and platform content.
+ArtistHub is a comprehensive web application built with Spring Boot for connecting artists with customers. It provides a platform where artists can showcase their profiles, upload media portfolios, receive bookings, and manage their schedules, while customers can search for artists, make bookings, and leave reviews. Users can also submit general platform feedback. The application also includes an administrative dashboard for managing users, platform content, and user feedback.
 
 ## Technology Stack
 - **Backend:** Java 17, Spring Boot 3.2.2
@@ -94,12 +94,12 @@ To work on this project using Eclipse IDE:
 
 ### Artist
 - **Registration:** Go to `/register`, select "Artist", fill in details.
-- **Capabilities:** Update profile, view bookings, manage availability.
+- **Capabilities:** Update profile, view bookings, manage availability, upload media (images/videos).
 - **Access:** URL: `/artist/dashboard`
 
 ### Customer
 - **Registration:** Go to `/register`, select "Customer".
-- **Capabilities:** Browse artists, book events, view booking history.
+- **Capabilities:** Browse artists, book events, view booking history, leave reviews for booked artists, submit platform feedback.
 - **Access:** URL: `/customer/dashboard`
 
 ## Architecture & Design
@@ -121,8 +121,8 @@ To work on this project using Eclipse IDE:
 - `src/main/java/com/artisthub`
     - `config`: Configuration classes (DataInitializer).
     - `controller`: Web and REST controllers.
-    - `dto`: Data Transfer Objects for API communication.
-    - `entity`: JPA Entities (`User`, `Artist`, `Booking`, etc.).
+    - `dto`: Data Transfer Objects for API communication (e.g., `FeedbackDto`, `ReviewDto`, `MediaDto`).
+    - `entity`: JPA Entities (`User`, `Artist`, `Booking`, `Feedback`, `Review`, `Media`).
     - `repository`: Data access interfaces.
     - `security`: Security configuration, JWT utilities, UserDetails service.
     - `service`: Business logic services.

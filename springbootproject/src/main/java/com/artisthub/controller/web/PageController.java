@@ -2,17 +2,17 @@ package com.artisthub.controller.web;
 
 import com.artisthub.entity.Artist;
 import com.artisthub.entity.Customer;
-import com.artisthub.entity.User;
 import com.artisthub.security.UserDetailsImpl;
 import com.artisthub.service.ArtistService;
 import com.artisthub.service.BookingService;
 import com.artisthub.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import com.artisthub.service.ReviewService;
+import com.artisthub.service.MediaService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +31,12 @@ public class PageController {
 
     @Autowired
     com.artisthub.service.AuthService authService;
+
+    @Autowired
+    ReviewService reviewService;
+
+    @Autowired
+    MediaService mediaService;
 
     @GetMapping("/")
     public String home() {
@@ -64,6 +70,8 @@ public class PageController {
             Artist artist = artistService.getArtistById(userId);
             model.addAttribute("artist", artist);
             model.addAttribute("bookings", bookingService.getBookingsByArtist(userId));
+            model.addAttribute("reviews", reviewService.getReviewsByArtist(userId));
+            model.addAttribute("mediaList", mediaService.getMediaByArtist(userId));
         } catch (Exception e) {
             // Handle case where user is not an artist logically (shouldn't happen due to Role check)
         }
@@ -112,6 +120,7 @@ public class PageController {
             @RequestParam(required = false) Integer experienceYears,
             @RequestParam(required = false) Double pricePerEvent,
             @RequestParam(required = false) String description,
+            @RequestParam(required = false) String profilePicUrl,
             @RequestParam(required = false) String address,
             Model model) {
         
@@ -128,6 +137,7 @@ public class PageController {
                 request.setExperienceYears(experienceYears);
                 request.setPricePerEvent(pricePerEvent);
                 request.setDescription(description);
+                request.setProfilePicUrl(profilePicUrl);
             } else {
                 request.setAddress(address);
             }

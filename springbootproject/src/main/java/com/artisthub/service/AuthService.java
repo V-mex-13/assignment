@@ -72,6 +72,7 @@ public class AuthService {
             artist.setExperienceYears(signUpRequest.getExperienceYears());
             artist.setPricePerEvent(signUpRequest.getPricePerEvent());
             artist.setDescription(signUpRequest.getDescription());
+            artist.setProfilePicUrl(signUpRequest.getProfilePicUrl());
             artist.setRole(User.Role.ARTIST);
             artistRepository.save(artist);
         } else if ("customer".equalsIgnoreCase(signUpRequest.getRole())) {

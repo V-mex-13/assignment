@@ -38,6 +38,7 @@ public class AuthDto {
         private Integer experienceYears;
         private Double pricePerEvent;
         private String description;
+        private String profilePicUrl;
         
         // Customer specific
         private String address;

@@ -69,42 +69,26 @@ public class AuthService {
             Artist artist = new Artist();
             setCommonDetails(artist, signUpRequest);
             artist.setCategory(signUpRequest.getCategory());
-            artist.setExperienceYears(signUpRequest.getExperienceYears());
-            artist.setPricePerEvent(signUpRequest.getPricePerEvent());
+            artist.setExperienceYears(signUpRequest.getExperienceYears() != null ? signUpRequest.getExperienceYears() : 0);
+            artist.setPricePerEvent(signUpRequest.getPricePerEvent() != null ? signUpRequest.getPricePerEvent() : 0.0);
             artist.setDescription(signUpRequest.getDescription());
             artist.setProfilePicUrl(signUpRequest.getProfilePicUrl());
             artist.setRole(User.Role.ARTIST);
+            artist.setApprovalStatus(Artist.ApprovalStatus.PENDING); // Explicitly set default
             artistRepository.save(artist);
-        } else if ("customer".equalsIgnoreCase(signUpRequest.getRole())) {
+        } else if ("admin".equalsIgnoreCase(signUpRequest.getRole())) {
+            // Admins are base Users
+            User admin = new User();
+            setCommonDetails(admin, signUpRequest);
+            admin.setRole(User.Role.ADMIN);
+            userRepository.save(admin);
+        } else {
+            // Default to Customer
             Customer customer = new Customer();
             setCommonDetails(customer, signUpRequest);
             customer.setAddress(signUpRequest.getAddress());
             customer.setRole(User.Role.CUSTOMER);
             customerRepository.save(customer);
-        } else {
-            // Default or Admin (Admin creation usually restricted, but for simplicity allowing here with caution or just defaulting to Customer if unknown)
-            // For now, let's allow Admin if requested, or just Customer
-            // TODO: Restrict Admin registration
-             Customer customer = new Customer();
-             setCommonDetails(customer, signUpRequest);
-             if ("admin".equalsIgnoreCase(signUpRequest.getRole())) {
-                 customer.setRole(User.Role.ADMIN); // Simplification: Storing admin in Customer table or generic User?
-                 // Note: Inherited strategies might require specific tables. 
-                 // If Admin doesn't have extra fields, User is enough, but we established Joined. 
-                 // Let's assume Admin is just a User base class instance or strictly handled.
-                 // Ideally, separate Admin entity or just User. 
-                 // Let's stick to User for Admin. 
-                 User admin = new User();
-                 admin.setName(signUpRequest.getName());
-                 admin.setEmail(signUpRequest.getEmail());
-                 admin.setPhone(signUpRequest.getPhone());
-                 admin.setPassword(encoder.encode(signUpRequest.getPassword()));
-                 admin.setRole(User.Role.ADMIN);
-                 userRepository.save(admin);
-                 return;
-             }
-             customer.setRole(User.Role.CUSTOMER);
-             customerRepository.save(customer);
         }
     }
 
@@ -113,5 +97,6 @@ public class AuthService {
         user.setEmail(request.getEmail());
         user.setPhone(request.getPhone());
         user.setPassword(encoder.encode(request.getPassword()));
+        user.setProfileImage(request.getProfileImage());
     }
 }

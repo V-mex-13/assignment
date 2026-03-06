@@ -39,6 +39,7 @@ public class AuthDto {
         private Double pricePerEvent;
         private String description;
         private String profilePicUrl;
+        private String profileImage;
         
         // Customer specific
         private String address;

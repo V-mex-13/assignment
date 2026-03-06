@@ -25,4 +25,12 @@ public class AuthRestController {
         authService.registerUser(signUpRequest);
         return ResponseEntity.ok("User registered successfully!");
     }
+
+    @Autowired
+    com.artisthub.repository.UserRepository userRepository;
+
+    @GetMapping("/debug-users")
+    public ResponseEntity<?> debugUsers() {
+        return ResponseEntity.ok(userRepository.findAll());
+    }
 }

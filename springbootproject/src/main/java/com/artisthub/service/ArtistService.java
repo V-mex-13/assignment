@@ -25,12 +25,14 @@ public class ArtistService {
         return artistRepository.findById(id).orElseThrow(() -> new RuntimeException("Artist not found"));
     }
 
+    @org.springframework.transaction.annotation.Transactional
     public void approveArtist(Long id) {
         Artist artist = getArtistById(id);
         artist.setApprovalStatus(Artist.ApprovalStatus.APPROVED);
         artistRepository.save(artist);
     }
 
+    @org.springframework.transaction.annotation.Transactional
     public void rejectArtist(Long id) {
         Artist artist = getArtistById(id);
         artist.setApprovalStatus(Artist.ApprovalStatus.REJECTED);

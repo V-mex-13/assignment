@@ -16,6 +16,12 @@ import com.artisthub.service.MediaService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.multipart.MultipartFile;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 @Controller
 public class PageController {
@@ -111,42 +117,51 @@ public class PageController {
     
     @PostMapping("/register-action")
     public String registerUser(
-            @RequestParam String name,
-            @RequestParam String email,
-            @RequestParam String password,
-            @RequestParam String phone,
-            @RequestParam String role,
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) Integer experienceYears,
-            @RequestParam(required = false) Double pricePerEvent,
-            @RequestParam(required = false) String description,
-            @RequestParam(required = false) String profilePicUrl,
-            @RequestParam(required = false) String address,
+            @ModelAttribute com.artisthub.dto.AuthDto.RegisterRequest request,
+            @RequestParam(required = false, name = "profileImageFile") MultipartFile profileImageFile,
             Model model) {
         
         try {
-            com.artisthub.dto.AuthDto.RegisterRequest request = new com.artisthub.dto.AuthDto.RegisterRequest();
-            request.setName(name);
-            request.setEmail(email);
-            request.setPassword(password);
-            request.setPhone(phone);
-            request.setRole(role);
-            
-            if ("artist".equals(role)) {
-                request.setCategory(category);
-                request.setExperienceYears(experienceYears);
-                request.setPricePerEvent(pricePerEvent);
-                request.setDescription(description);
-                request.setProfilePicUrl(profilePicUrl);
+            // Handle Profile Image Upload
+            if (profileImageFile != null && !profileImageFile.isEmpty()) {
+                String originalFileName = profileImageFile.getOriginalFilename();
+                if (originalFileName != null && (originalFileName.toLowerCase().endsWith(".jpg") || originalFileName.toLowerCase().endsWith(".jpeg") || originalFileName.toLowerCase().endsWith(".png"))) {
+                    Path uploadDir = Paths.get("uploads");
+                    if (!Files.exists(uploadDir)) {
+                        Files.createDirectories(uploadDir);
+                    }
+                    String fileName = UUID.randomUUID().toString() + "_" + originalFileName;
+                    Path filePath = uploadDir.resolve(fileName);
+                    Files.copy(profileImageFile.getInputStream(), filePath);
+                    request.setProfileImage(fileName);
+                } else {
+                    model.addAttribute("error", "Only JPG and PNG files are allowed for profile picture");
+                    return "register";
+                }
             } else {
-                request.setAddress(address);
+                request.setProfileImage("default-avatar.png");
+            }
+
+            System.out.println("====== REGISTRATION DEBUG ======");
+            System.out.println("Role: " + request.getRole());
+            System.out.println("Email: " + request.getEmail());
+            System.out.println("Name: " + request.getName());
+            System.out.println("=================================");
+
+            authService.registerUser(request);
+            
+            // Redirect based on current user role
+            org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null && authentication.getAuthorities().stream()
+                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                return "redirect:/admin/dashboard?success=User Registered Successfully";
             }
             
-            authService.registerUser(request);
             return "redirect:/login?success";
             
         } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
+            e.printStackTrace();
+            model.addAttribute("error", e.getMessage() != null ? e.getMessage() : "An error occurred during registration. Please try again.");
             return "register";
         }
     }

@@ -32,6 +32,7 @@ public class User {
 
     private boolean active = true;
 
+    private String profileImage;
     public enum Role {
         ADMIN, ARTIST, CUSTOMER
     }

@@ -6,12 +6,13 @@
 
         <h3>Your Cookies:</h3>
         <ul>
-            <% jakarta.servlet.http.Cookie[] cookies=request.getCookies(); if (cookies !=null) { for
-                (jakarta.servlet.http.Cookie c : cookies) { out.println("<li>" + c.getName() + " : " + c.getValue() + "
-                </li>");
-                }
-                }
-                %>
+            <% jakarta.servlet.http.Cookie[] cookies=request.getCookies(); 
+               if (cookies !=null) { 
+                   for(jakarta.servlet.http.Cookie c : cookies) { 
+                       out.println("<li>" + c.getName() + " : " + c.getValue() + "</li>");
+                   }
+               }
+            %>
         </ul>
     </body>
 

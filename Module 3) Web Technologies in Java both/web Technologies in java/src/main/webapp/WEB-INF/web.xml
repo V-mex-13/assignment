@@ -10,6 +10,10 @@
         <param-value>jdbc:mysql://localhost:3306/labdb</param-value>
     </context-param>
 
+    <welcome-file-list>
+        <welcome-file>directory.jsp</welcome-file>
+    </welcome-file-list>
+
     <!-- Filters -->
     <filter>
         <filter-name>ValFilter</filter-name>

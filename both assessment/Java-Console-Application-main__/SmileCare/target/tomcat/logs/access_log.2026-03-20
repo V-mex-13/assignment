@@ -1,0 +1,4 @@
+0:0:0:0:0:0:0:1 - - [20/Mar/2026:14:55:46 +0530] "POST /book_appointment.jsp HTTP/1.1" 200 3582 http-bio-8080-exec-1 2302
+0:0:0:0:0:0:0:1 - - [20/Mar/2026:15:02:09 +0530] "POST /SmileCare/book_appointment.jsp HTTP/1.1" 404 1011 http-bio-8080-exec-3 973
+0:0:0:0:0:0:0:1 - - [20/Mar/2026:15:02:14 +0530] "POST /SmileCare/book_appointment.jsp HTTP/1.1" 404 1011 http-bio-8080-exec-5 6
+0:0:0:0:0:0:0:1 - - [20/Mar/2026:15:04:14 +0530] "POST /SmileCare/book_appointment.jsp HTTP/1.1" 404 1011 http-bio-8080-exec-7 16
